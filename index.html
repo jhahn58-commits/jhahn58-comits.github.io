@@ -12,9 +12,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary-blue': '#1c75c8',
-                        'primary-dark': '#0f4c81',
-                        'accent-green': '#2ecc71',
+                        // Updated for a more fun and vibrant feel
+                        'fun-purple': '#8e2de2', // Vibrant accent color for icons/text
+                        'primary-dark': '#0f4c81', // Footer/Shadow (retained for contrast)
+                        'accent-green': '#2ecc71', // CTA primary color
+                        'cta-blue': '#3498db', // CTA secondary color
                         'gray-light': '#f4f7f9',
                     },
                     fontFamily: {
@@ -25,18 +27,33 @@
         }
     </script>
     <style>
+        @keyframes pulse-icon {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.95; }
+            100% { transform: scale(1); opacity: 1; }
+        }
         /* Ensures the landing page takes up the full viewport height */
         #main-content {
             min-height: calc(100vh - 80px); /* Subtract footer height */
-            background-image: linear-gradient(135deg, #f4f7f9 0%, #e8edf1 100%);
+            /* Using a lighter, subtle background gradient that hints at the fun purple */
+            background-image: linear-gradient(135deg, #e8edf1 0%, #f7f3ff 50%, #f4f7f9 100%);
+        }
+        .icon-animate {
+            animation: pulse-icon 3s infinite ease-in-out;
+            filter: drop-shadow(0 4px 10px rgba(142, 45, 226, 0.4)); /* Subtle shadow under the icon */
         }
         .cta-button {
-            transition: all 0.2s ease;
+            /* Using a gradient for the button for more visual pop */
+            background-image: linear-gradient(to right, #2ecc71, #3498db);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy effect */
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            border: 2px solid #fff;
         }
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 12px 30px rgba(46, 204, 113, 0.8);
+            /* Reverse gradient or shift color on hover */
+            background-image: linear-gradient(to right, #3498db, #2ecc71);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -48,26 +65,24 @@
         <div class="max-w-4xl w-full bg-white rounded-xl shadow-2xl p-8 sm:p-12 lg:p-16 text-center">
             <!-- Header/Icon -->
             <div class="mb-8">
-                <!-- Inline SVG Icon for visual appeal -->
-                <svg class="mx-auto h-16 w-16 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.152A1.405 1.405 0 0112 3.232v15.936a1.405 1.405 0 01-1.405 1.404h-4.39a1.405 1.405 0 01-1.405-1.404V3.232a1.405 1.405 0 011.049-1.08m4.39 0h4.39a1.405 1.405 0 011.405 1.404v15.936a1.405 1.405 0 01-1.405 1.404h-4.39a1.405 1.405 0 01-1.405-1.404V3.232a1.405 1.405 0 011.049-1.08z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18V6" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8" />
+                <!-- Star/Prize Icon with fun animation and fun color -->
+                <svg class="mx-auto h-20 w-20 text-fun-purple icon-animate" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 3.917 1.48-8.279L.001 9.306l8.332-1.151L12 .587z"/>
                 </svg>
             </div>
 
             <!-- Title and Description -->
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-primary-dark mb-4">
-                Access The Team Imagine Prize Catalog
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-fun-purple mb-4">
+                🎉 Your Team Imagine Prize Hub!
             </h1>
             <p class="text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto">
-                Redeem your hard-earned points for rewards! Click the button below to sign in via your Google account and browse the available prizes.
+                Time to cash in those well-deserved points! Click below to securely sign in with your Google account and explore all the awesome rewards waiting for you.
             </p>
 
             <!-- Call-to-Action Link -->
             <a href="https://script.google.com/macros/s/AKfycbyDSfkR00tMQoVfMKO90BBvHhfDSrUf936XU-pQrjziY9eDmKg0zVIcOqX-HV210_Akwg/exec" target="_self" 
-               class="cta-button inline-block bg-accent-green text-white font-bold py-3 px-10 rounded-full text-lg uppercase tracking-wider hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-accent-green focus:ring-opacity-50">
-                Launch Prize Catalog App
+               class="cta-button inline-block text-white font-black py-4 px-12 rounded-full text-xl uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-accent-green focus:ring-opacity-50 shadow-lg">
+                Go to the Fun Zone
             </a>
 
             <!-- Small Note -->
