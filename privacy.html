@@ -1,25 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>dojo checkout Privacy Policy</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
-        h1 { color: #333; }
-        h2 { color: #555; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 25px; }
-        p, ul { margin-bottom: 15px; }
-        .contact { margin-top: 30px; padding: 15px; background: #f9f9f9; border-radius: 4px; }
-    </style>
+    <title>Privacy Policy</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#1c75c8',
+                        'primary-dark': '#0f4c81',
+                        'accent-green': '#2ecc71',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body>
-    <h1>Privacy Policy for dojo checkout</h1>
-    <p><strong>Effective Date: Oct 8, 2025</strong></p>
+<body class="font-sans bg-gray-50 text-gray-800 p-6 sm:p-12">
 
-    <div class="contact">
-        <h2>Contact Us</h2>
-        <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at: <strong>jhahn58@gmail.com</strong></p>
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 sm:p-10">
+        <h1 class="text-3xl sm:text-4xl font-bold text-primary-dark mb-6 border-b-2 pb-2">Privacy Policy for Prize Catalog</h1>
+        
+        <p class="text-sm text-gray-500 mb-8">
+            Last Updated: October 8, 2025
+        </p>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-primary-blue mb-3">1. Information Collected</h2>
+            <p class="mb-4">
+                This Prize Catalog application, powered by Google Apps Script, collects and uses minimal personal information necessary for its function.
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                <li>**Authentication Data:** Your Google email address is collected upon sign-in to verify your identity and authorize access to the catalog.</li>
+                <li>**User Data:** Your name and current point total are retrieved from an internal spreadsheet system (Google Sheet) associated with this application.</li>
+                <li>**Transaction Data:** Records of your prize redemption history, including the items ordered, total points spent, and transaction timestamp, are stored for internal tracking and fulfillment purposes.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-primary-blue mb-3">2. Use of Information</h2>
+            <p class="text-gray-700">
+                The information collected is used exclusively for the operation of the Prize Catalog, including:
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-4 text-gray-700">
+                <li>Verifying user eligibility and points balance.</li>
+                <li>Processing and fulfilling prize redemption requests.</li>
+                <li>Maintaining accurate records of point balances and transaction history.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-primary-blue mb-3">3. Data Security and Sharing</h2>
+            <p class="text-gray-700">
+                All data is stored within your organization's Google environment (Google Sheets). We do not share any personal or transaction data with external third parties. Access to the underlying data is limited to authorized personnel responsible for system maintenance and prize fulfillment.
+            </p>
+        </section>
+        
+        <div class="mt-10 pt-4 border-t text-center">
+            <a href="index.html" class="text-primary-blue hover:text-accent-green transition duration-150 font-medium">
+                &larr; Back to Landing Page
+            </a>
+        </div>
     </div>
 
-    <p style="text-align: center; margin-top: 40px;"><a href="https://script.google.com/macros/s/AKfycbyDSfkR00tMQoVfMKO90BBvHhfDSrUf936XU-pQrjziY9eDmKg0zVIcOqX-HV210_Akwg/exec">Launch the Application</a></p>
 </body>
 </html>
