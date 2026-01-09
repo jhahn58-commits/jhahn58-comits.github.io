@@ -3,109 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prize Catalog & Point Tracker</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind for Inter font and some custom colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // Updated for a more fun and vibrant feel
-                        'fun-purple': '#8e2de2', // Vibrant accent color for icons/text
-                        'primary-dark': '#0f4c81', // Footer/Shadow (retained for contrast)
-                        'accent-green': '#2ecc71', // CTA primary color
-                        'cta-blue': '#3498db', // CTA secondary color
-                        'gray-light': '#f4f7f9',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    <title>NHL Puckle - Trivia Game</title>
     <style>
-        @keyframes pulse-icon {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.95; }
-            100% { transform: scale(1); opacity: 1; }
+        :root {
+            --correct: #538d4e;
+            --wrong: #3a3a3c;
+            --bg: #121213;
+            --text: #ffffff;
+            --accent: #007bff;
+            --panel: #1e1e1e;
         }
-        /* Ensures the landing page takes up the full viewport height */
-        #main-content {
-            min-height: calc(100vh - 80px); /* Subtract footer height */
-            /* Using a lighter, subtle background gradient that hints at the fun purple */
-            background-image: linear-gradient(135deg, #e8edf1 0%, #f7f3ff 50%, #f4f7f9 100%);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
         }
-        .icon-animate {
-            animation: pulse-icon 3s infinite ease-in-out;
-            filter: drop-shadow(0 4px 10px rgba(142, 45, 226, 0.4)); /* Subtle shadow under the icon */
+
+        .container { max-width: 400px; width: 100%; text-align: center; }
+
+        /* Clue Card */
+        .clue-box {
+            background: var(--panel);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .cta-button {
-            /* Using a gradient for the button for more visual pop */
-            background-image: linear-gradient(to right, #2ecc71, #3498db);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy effect */
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-            border: 2px solid #fff;
+
+        #player-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #333;
+            margin: 15px 0;
+            filter: blur(20px);
+            transition: filter 0.5s ease;
+            border: 4px solid #444;
         }
-        .cta-button:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 12px 30px rgba(46, 204, 113, 0.8);
-            /* Reverse gradient or shift color on hover */
-            background-image: linear-gradient(to right, #3498db, #2ecc71);
+
+        .jersey-num { font-size: 80px; font-weight: bold; color: var(--accent); line-height: 1; }
+        .team-label { font-size: 20px; font-weight: bold; letter-spacing: 2px; }
+
+        /* Controls */
+        select, input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            box-sizing: border-box;
         }
+
+        select, input { background: #272729; color: white; border: 1px solid #444; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        
+        button { cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-guess { background: var(--correct); color: white; grid-column: span 2; }
+        .btn-giveup { background: #e74c3c; color: white; }
+        .btn-reset { background: var(--accent); color: white; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* History */
+        #history { margin-top: 20px; width: 100%; }
+        .history-item {
+            background: var(--wrong);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body class="font-sans text-gray-800">
+<body>
 
-    <!-- Main Content Section -->
-    <main id="main-content" class="flex items-center justify-center p-6 sm:p-10">
-        <div class="max-w-4xl w-full bg-white rounded-xl shadow-2xl p-8 sm:p-12 lg:p-16 text-center">
-            <!-- Header/Icon -->
-            <div class="mb-8">
-                <!-- Star/Prize Icon with fun animation and fun color -->
-                <svg class="mx-auto h-20 w-20 text-fun-purple icon-animate" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 3.917 1.48-8.279L.001 9.306l8.332-1.151L12 .587z"/>
-                </svg>
-            </div>
+<div class="container">
+    <h1>🏒 NHL PUCKLE</h1>
 
-            <!-- Title and Description -->
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-fun-purple mb-4">
-                Your Team Imagine Prize Hub!
-            </h1>
-            <p class="text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto">
-                Time to cash in those well-deserved points! Click below to securely sign in with your Google account and explore all the awesome rewards waiting for you.
-            </p>
+    <select id="team-select" onchange="resetGame()">
+        <option value="ALL">All Teams</option>
+        <optgroup label="Atlantic">
+            <option value="BOS">Boston Bruins</option><option value="BUF">Buffalo Sabres</option>
+            <option value="DET">Detroit Red Wings</option><option value="FLA">Florida Panthers</option>
+            <option value="MTL">Montreal Canadiens</option><option value="OTT">Ottawa Senators</option>
+            <option value="TBL">Tampa Bay Lightning</option><option value="TOR">Toronto Maple Leafs</option>
+        </optgroup>
+        <optgroup label="Metropolitan">
+            <option value="CAR">Carolina Hurricanes</option><option value="CBJ">Columbus Blue Jackets</option>
+            <option value="NJD">New Jersey Devils</option><option value="NYI">New York Islanders</option>
+            <option value="NYR">New York Rangers</option><option value="PHI">Philadelphia Flyers</option>
+            <option value="PIT">Pittsburgh Penguins</option><option value="WSH">Washington Capitals</option>
+        </optgroup>
+        <optgroup label="Central">
+            <option value="CHI">Chicago Blackhawks</option><option value="COL">Colorado Avalanche</option>
+            <option value="DAL">Dallas Stars</option><option value="MIN">Minnesota Wild</option>
+            <option value="NSH">Nashville Predators</option><option value="STL">St. Louis Blues</option>
+            <option value="UTA">Utah Mammoth</option><option value="WPG">Winnipeg Jets</option>
+        </optgroup>
+        <optgroup label="Pacific">
+            <option value="ANA">Anaheim Ducks</option><option value="CGY">Calgary Flames</option>
+            <option value="EDM">Edmonton Oilers</option><option value="LAK">Los Angeles Kings</option>
+            <option value="SJS">San Jose Sharks</option><option value="SEA">Seattle Kraken</option>
+            <option value="VAN">Vancouver Canucks</option><option value="VGK">Vegas Golden Knights</option>
+        </optgroup>
+    </select>
 
-            <!-- Call-to-Action Link -->
-            <a href="https://script.google.com/macros/s/AKfycbyDSfkR00tMQoVfMKO90BBvHhfDSrUf936XU-pQrjziY9eDmKg0zVIcOqX-HV210_Akwg/exec" target="_self" 
-               class="cta-button inline-block text-white font-black py-4 px-12 rounded-full text-xl uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-accent-green focus:ring-opacity-50 shadow-lg">
-                Go to the Prize Catalog
-            </a>
+    <div class="clue-box">
+        <div id="display-team" class="team-label">LOADING...</div>
+        <div id="display-number" class="jersey-num">--</div>
+        <img id="player-img" src="">
+        <div id="display-pos" style="font-weight: bold; color: #aaa;">POSITION</div>
+    </div>
 
-            <!-- Small Note -->
-            <p class="text-sm text-gray-500 mt-6 italic">
-                (You will be securely redirected to the Google Apps Script application.)
-            </p>
+    <div style="margin-bottom: 10px;">Guesses Left: <strong id="guesses-left">5</strong></div>
 
-        </div>
-    </main>
+    <input type="text" id="guess-input" list="player-options" placeholder="Type player name..." oninput="fetchSuggestions()">
+    <datalist id="player-options"></datalist>
 
-    <!-- Footer Section with Privacy Link -->
-    <footer class="bg-primary-dark text-white text-center p-4">
-        <p class="text-sm">
-            © 2025 Prize Program. All rights reserved. | 
-            <a href="privacy.html" class="underline hover:text-accent-green transition duration-150">
-                Privacy Policy
-            </a>
-            <span class="mx-2">|</span>
-            <a href="terms.html" class="underline hover:text-accent-green transition duration-150">
-                Terms of Service
-            </a>
-        </p>
-    </footer>
+    <button onclick="submitGuess()" id="guess-btn" class="btn-guess">SUBMIT GUESS</button>
+    
+    <div class="btn-group">
+        <button onclick="revealAnswer(false)" id="give-up-btn" class="btn-giveup">GIVE UP</button>
+        <button onclick="resetGame()" id="reset-btn" class="btn-reset">NEW PLAYER</button>
+    </div>
+
+    <div id="history"></div>
+</div>
+
+<script>
+    let target = null;
+    let attempts = 0;
+    let isOver = false;
+
+    async function initGame() {
+        const team = document.getElementById('team-select').value;
+        const res = await fetch(`/daily-player?team=${team}`);
+        if (!res.ok) {
+            alert("Could not find a player for that team!");
+            return;
+        }
+        target = await res.json();
+        
+        // Update UI
+        document.getElementById('display-team').innerText = target.team;
+        document.getElementById('display-number').innerText = target.jersey;
+        document.getElementById('display-pos').innerText = target.position;
+        document.getElementById('player-img').src = target.image;
+        document.getElementById('player-img').style.filter = "blur(20px)";
+    }
+
+    async function fetchSuggestions() {
+        const q = document.getElementById('guess-input').value;
+        const team = document.getElementById('team-select').value;
+        if (q.length < 2) return;
+
+        const res = await fetch(`/search-players?q=${q}&team=${team}`);
+        const players = await res.json();
+        const list = document.getElementById('player-options');
+        list.innerHTML = "";
+        players.forEach(p => {
+            const o = document.createElement('option');
+            o.value = p.name;
+            list.appendChild(o);
+        });
+    }
+
+    function submitGuess() {
+        if (isOver) return;
+        const input = document.getElementById('guess-input');
+        const val = input.value.trim();
+        if (!val) return;
+
+        attempts++;
+        const correct = val.toLowerCase() === target.name.toLowerCase();
+        
+        // Progressive unblur logic (20px -> 16 -> 12 -> 8 -> 4 -> 0)
+        const newBlur = Math.max(0, 20 - (attempts * 4));
+        document.getElementById('player-img').style.filter = `blur(${newBlur}px)`;
+
+        // Update History
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `<span>${val}</span> <span>${correct ? '✅' : '❌'}</span>`;
+        document.getElementById('history').prepend(item);
+
+        document.getElementById('guesses-left').innerText = 5 - attempts;
+        input.value = "";
+
+        if (correct) {
+            endGame(true);
+        } else if (attempts >= 5) {
+            revealAnswer(true);
+        }
+    }
+
+    function revealAnswer(ranOut) {
+        endGame(false, ranOut ? "Out of guesses!" : "You gave up!");
+    }
+
+    function endGame(won, msg) {
+        isOver = true;
+        document.getElementById('player-img').style.filter = "none";
+        document.getElementById('guess-input').disabled = true;
+        document.getElementById('guess-btn').disabled = true;
+        document.getElementById('give-up-btn').disabled = true;
+        
+        setTimeout(() => {
+            alert(won ? "🏆 GOAL! You guessed it!" : `${msg} The player was ${target.name}`);
+        }, 500);
+    }
+
+    function resetGame() {
+        attempts = 0;
+        isOver = false;
+        document.getElementById('history').innerHTML = "";
+        document.getElementById('guesses-left').innerText = "5";
+        document.getElementById('guess-input').disabled = false;
+        document.getElementById('guess-btn').disabled = false;
+        document.getElementById('give-up-btn').disabled = false;
+        document.getElementById('guess-input').value = "";
+        initGame();
+    }
+
+    // Initial load
+    initGame();
+</script>
 
 </body>
 </html>
